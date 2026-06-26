@@ -40,3 +40,15 @@ export const getProductDetailApi = async (
   return response.data;
 
 };
+
+export const getCompareProductsApi = (
+  ids: number[]
+) => {
+
+  return api.get(
+
+    `/products/compare/?ids=${ids.join(",")}`
+
+  );
+
+};

@@ -174,6 +174,107 @@ const ProductDetail = () => {
 
             ₹{product.price}
 
+            /* MarketPlace Price */
+            {
+              product.productprice_set?.length > 0 && (
+
+                <div className="mt-8">
+
+                  <h3 className="text-lg font-semibold mb-4">
+
+                    Available at
+
+                  </h3>
+
+                  <div className="space-y-3">
+
+                    {
+
+                      product.productprice_set.map(
+                        (price: any) => (
+
+                          <a
+
+                            key={price.id}
+
+                            href={price.product_url}
+
+                            target="_blank"
+
+                            rel="noopener noreferrer"
+
+                            className="
+                              flex
+                              justify-between
+                              items-center
+                              border
+                              rounded-xl
+                              p-4
+                              hover:shadow-md
+                              hover:border-blue-500
+                              transition
+                            "
+
+                          >
+
+                            <div className="flex items-center gap-3">
+
+                              {
+
+                                price.marketplace.logo ? (
+
+                                  <img
+                                    src={price.marketplace.logo}
+                                    className="h-8"
+                                    alt={price.marketplace.name}
+                                  />
+
+                                ) : (
+
+                                  <div className="text-lg font-semibold text-gray-80">
+
+                                    {
+                                      price.marketplace.name
+                                    }
+
+                                  </div>
+
+                                )
+
+                        }
+
+                            </div>
+
+                            <div className="text-right">
+
+                              <div className="font-bold text-blue-600 text-xl">
+
+                                ₹{price.price}
+
+                              </div>
+
+                              <div className="text-sm text-gray-500">
+
+                                View Deal →
+
+                              </div>
+
+                            </div>
+
+                          </a>
+
+                        )
+                      )
+
+                    }
+
+                  </div>
+
+                </div>
+
+              )
+            }
+
           </div>
 
           <div className="mt-10 space-y-4 text-gray-700">
@@ -271,6 +372,7 @@ const ProductDetail = () => {
         </div>
 
       </div>
+
 
       {/* Specifications */}
 

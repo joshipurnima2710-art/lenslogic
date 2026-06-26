@@ -10,6 +10,7 @@ import MainLayout from "../layouts/MainLayout";
 import Dashboard from "../pages/Dashboard";
 import ProductDetail from "../pages/ProductDetail";
 import Login from "../pages/Login";
+import ComparePage from "../pages/ComparePage";
 
 const AppRoutes = () => {
 
@@ -45,6 +46,12 @@ const AppRoutes = () => {
           path="/products/:id"
           element={<ProductDetail />}
         />
+
+        <Route
+          path="/compare"
+          element={<ComparePage />}
+        />
+
 
       </Route>
 
