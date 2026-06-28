@@ -169,12 +169,13 @@ const ProductDetail = () => {
             {product.name}
 
           </h1>
-
+          
+          {/* Marketplace Prices */}
           <div className="mt-6 text-4xl font-bold text-blue-600">
 
             ₹{product.price}
 
-            /* MarketPlace Price */
+          
             {
               product.productprice_set?.length > 0 && (
 
@@ -209,7 +210,7 @@ const ProductDetail = () => {
                               items-center
                               border
                               rounded-xl
-                              p-4
+                              p-2
                               hover:shadow-md
                               hover:border-blue-500
                               transition
