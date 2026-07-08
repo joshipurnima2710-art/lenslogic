@@ -1,510 +1,273 @@
-import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import {
+  X,
+  ShoppingCart,
+  BadgeIndianRupee,
+  CheckCircle,
+} from "lucide-react";
 
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 
-import {
-  fetchCompareProducts,
-  clearCompare
-} from "../features/products/compareSlice";
+import { fetchCompareProducts } from "../features/products/compareSlice";
+
+import "../assets/css/compare.css";
 
 const ComparePage = () => {
+  const dispatch = useAppDispatch();
 
-  const dispatch =
-    useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const [searchParams] =
-    useSearchParams();
+  const ids = searchParams.get("ids");
 
-  const ids =
-    searchParams.get("ids");
-
-  const {
-    compareProducts,
-    loading
-  } = useAppSelector(
-    state => state.compare
+  const { compareProducts, loading } = useAppSelector(
+    (state) => state.compare
   );
 
   useEffect(() => {
-
     if (ids) {
-
       dispatch(
         fetchCompareProducts(
-          ids
-            .split(",")
-            .map(Number)
+          ids.split(",").map(Number)
         )
       );
-
     }
-
   }, [ids, dispatch]);
 
-  if (loading) {
-
-    return (
-
-      <div className="flex justify-center py-20">
-
-        Loading comparison...
-
-      </div>
-
-    );
-
-  }
-
-  if (
-    compareProducts.length === 0
-  ) {
-
-    return (
-
-      <div className="text-center py-20">
-
-        No products selected for comparison.
-
-      </div>
-
-    );
-
-  }
-
-  const specificationNames =
-    Array.from(
-
-      new Set(
-
-        compareProducts.flatMap(
-
-          product =>
-
-            product.productspecifications_set
-              ?.map(
-                (spec: any) =>
-                  spec.specification_name
-              )
-              .filter(Boolean) || []
-
+  // MUST be before conditional returns
+  const allSpecifications = useMemo(() => {
+    const specs = compareProducts.flatMap(
+      (product: any) =>
+        (product.productspecifications_set || []).map(
+          (spec: any) => spec.key
         )
-
-      )
-
     );
+
+    return [...new Set(specs)];
+  }, [compareProducts]);
+
+  const getSpecificationValue = (
+    product: any,
+    key: string
+  ) => {
+    const specification =
+      (product.productspecifications_set || []).find(
+        (item: any) => item.key === key
+      );
+
+    return specification?.value || "-";
+  };
+
+  if (loading) {
+    return (
+      <div className="compare-loading">
+        Loading comparison...
+      </div>
+    );
+  }
+
+  if (!compareProducts || compareProducts.length === 0) {
+    return (
+      <div className="compare-empty">
+        No products selected for comparison.
+      </div>
+    );
+  }
 
   return (
-
-    <div className="max-w-[1800px] mx-auto p-6">
-
-      <div className="flex justify-between items-center mb-8">
-
-        <h1 className="text-3xl font-bold">
-
-          Product Comparison
-
-        </h1>
-
-        <button
-
-          onClick={() =>
-            dispatch(
-              clearCompare()
-            )
-          }
-
-          className="
-            px-4
-            py-2
-            bg-red-500
-            text-white
-            rounded-lg
-            hover:bg-red-600
-          "
-
-        >
-
-          Clear Comparison
-
-        </button>
-
+    <div className="compare-page">
+      <div className="compare-top-bar">
+      <button
+        className="back-btn"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
+    </div>
+      <div className="compare-header">
+        <h1>Compare Products</h1>
+        <p>
+          Compare specifications, prices and marketplace availability
+        </p>
       </div>
 
-      <div
-        className="
-          overflow-x-auto
-          bg-white
-          rounded-xl
-          shadow
-        "
-      >
+      <div className="compare-wrapper">
 
-        <table className="min-w-full">
+        {/* Specification Column */}
+        <div className="compare-spec-column">
+          <div className="spec-header-space"></div>
 
-          <thead>
+          <div className="spec-group-title">
+            Specifications
+          </div>
 
-            <tr className="border-b">
+          {allSpecifications.map((spec: string) => (
+            <div
+              className="spec-name"
+              key={spec}
+            >
+              {spec}
+            </div>
+          ))}
+        </div>
 
-              <th
-                className="
-                  p-5
-                  bg-gray-50
-                  sticky
-                  left-0
-                  z-20
-                  min-w-[250px]
-                  text-left
-                "
-              >
+        {/* Products */}
+        {compareProducts.map((product: any) => {
 
-                Specification
+          const marketplacePrices =
+            (product.productprice_set || []).map(
+              (item: any) => Number(item.price)
+            );
 
-              </th>
+          const lowestMarketplacePrice =
+            marketplacePrices.length > 0
+              ? Math.min(...marketplacePrices)
+              : 0;
 
-              {
+          return (
+            <div
+              className="compare-product-column"
+              key={product.id}
+            >
 
-                compareProducts.map(
-                  product => (
+              {/* Remove Button */}
+              <button className="remove-btn">
+                <X size={16} />
+              </button>
 
-                    <th
+              {/* Image */}
+              <img
+                src={
+                  product.productimages_set?.[0]?.image_url ||
+                  "/placeholder.png"
+                }
+                alt={product.name}
+                className="compare-image"
+              />
 
-                      key={`header-${product.id}`}
+              {/* Name */}
+              <h3 className="product-name">
+                {product.name}
+              </h3>
 
-                      className="
-                        p-5
-                        min-w-[320px]
-                        border-l
-                        text-center
-                      "
+              {/* Product Meta */}
+              <div className="product-meta">
 
-                    >
+                {product.brand && (
+                  <span>{product.brand}</span>
+                )}
 
-                      <img
+                {product.lens_type && (
+                  <span>{product.lens_type}</span>
+                )}
 
-                        src={
-                          product.productimages_set?.[0]
-                            ?.image_url ||
-                          "/no-image.png"
-                        }
+                {product.mount_type && (
+                  <span>{product.mount_type}</span>
+                )}
 
-                        alt={product.name}
+                {product.sensor_type && (
+                  <span>{product.sensor_type}</span>
+                )}
 
-                        className="
-                          h-52
-                          mx-auto
-                          object-contain
-                        "
-                      />
+              </div>
 
-                      <div className="mt-4 text-lg font-bold">
+              {/* MRP */}
+              <div className="mrp-price">
+                {product.price}
+              </div>
 
-                        {product.name}
+              {/* Lowest Price Card */}
+              <div className="lowest-price-card">
 
-                      </div>
+                <BadgeIndianRupee size={18} />
 
-                      <div className="text-gray-500">
+                <div>
+                  <div className="lowest-label">
+                    Lowest Price
+                  </div>
 
-                        {product.brand}
+                  <div className="lowest-value">
+                    ₹{lowestMarketplacePrice}
+                  </div>
+                </div>
 
-                      </div>
+              </div>
 
-                      <div className="text-2xl font-bold text-blue-600 mt-3">
+              {/* Specifications */}
+              {allSpecifications.map(
+                (spec: string) => (
+                  <div
+                    className="spec-value"
+                    key={`${product.id}-${spec}`}
+                  >
+                    {getSpecificationValue(
+                      product,
+                      spec
+                    )}
+                  </div>
+                )
+              )}
 
-                        ₹{product.price}
+              {/* Marketplace */}
+              <div className="marketplace-title">
+                Marketplace Prices
+              </div>
 
-                      </div>
+              <div className="marketplace-list">
 
-                      <div className="mt-4 space-y-2">
+                {(product.productprice_set || []).map(
+                  (market: any) => {
 
-                        {
+                    const isLowest =
+                      Number(market.price) ===
+                      lowestMarketplacePrice;
 
-                            product.productprice_set?.map(
-                            (price: any) => (
+                    return (
+                      <a
+                        href={market.product_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="market-card"
+                        key={market.id}
+                      >
+                        <div className="market-left">
 
-                                <a
+                          <div className="market-name">
+                            {market.marketplace?.name}
+                          </div>
 
-                                key={price.id}
-
-                                href={price.product_url}
-
-                                target="_blank"
-
-                                rel="noopener noreferrer"
-
-                                className="
-                                    flex
-                                    justify-between
-                                    items-center
-                                    border
-                                    rounded-lg
-                                    px-3
-                                    py-2
-                                    hover:bg-gray-50
-                                    transition
-                                "
-
-                                >
-
-                                <span className="text-sm text-gray-600">
-
-                                    {
-
-                                    price.marketplace.name
-
-                                    }
-
-                                </span>
-
-                                <span className="font-semibold text-blue-600">
-
-                                    ₹{price.price}
-
-                                </span>
-
-                                </a>
-
-                            )
-                            )
-
-                        }
+                          <div className="market-price">
+                            ₹{market.price}
+                          </div>
 
                         </div>
 
-                    </th>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr className="border-b">
-
-              <td className="p-4 font-semibold bg-gray-50 sticky left-0">
-
-                Product Type
-
-              </td>
-
-              {
-
-                compareProducts.map(
-                  product => (
-
-                    <td
-                      key={`ptype-${product.id}`}
-                      className="p-4 text-center"
-                    >
-
-                      {product.product_type || "-"}
-
-                    </td>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-            <tr className="border-b">
-
-              <td className="p-4 font-semibold bg-gray-50 sticky left-0">
-
-                Brand
-
-              </td>
-
-              {
-
-                compareProducts.map(
-                  product => (
-
-                    <td
-                      key={`brand-${product.id}`}
-                      className="p-4 text-center"
-                    >
-
-                      {product.brand || "-"}
-
-                    </td>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-            <tr className="border-b">
-
-              <td className="p-4 font-semibold bg-gray-50 sticky left-0">
-
-                Camera Type
-
-              </td>
-
-              {
-
-                compareProducts.map(
-                  product => (
-
-                    <td
-                      key={`camera-${product.id}`}
-                      className="p-4 text-center"
-                    >
-
-                      {product.camera_type || "-"}
-
-                    </td>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-            <tr className="border-b">
-
-              <td className="p-4 font-semibold bg-gray-50 sticky left-0">
-
-                Mount Type
-
-              </td>
-
-              {
-
-                compareProducts.map(
-                  product => (
-
-                    <td
-                      key={`mount-${product.id}`}
-                      className="p-4 text-center"
-                    >
-
-                      {product.mount_type || "-"}
-
-                    </td>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-            <tr className="border-b">
-
-              <td className="p-4 font-semibold bg-gray-50 sticky left-0">
-
-                Sensor Type
-
-              </td>
-
-              {
-
-                compareProducts.map(
-                  product => (
-
-                    <td
-                      key={`sensor-${product.id}`}
-                      className="p-4 text-center"
-                    >
-
-                      {product.sensor_type || "-"}
-
-                    </td>
-
-                  )
-                )
-
-              }
-
-            </tr>
-
-            {
-
-              specificationNames.map(
-                specName => (
-
-                  <tr
-                    key={`spec-row-${specName}`}
-                    className="border-b"
-                  >
-
-                    <td
-                      className="
-                        p-4
-                        font-semibold
-                        bg-gray-50
-                        sticky
-                        left-0
-                      "
-                    >
-
-                      {specName}
-
-                    </td>
-
-                    {
-
-                      compareProducts.map(
-                        product => {
-
-                          const spec =
-                            product.productspecifications_set?.find(
-                              (item: any) =>
-                                item.specification_name === specName
-                            );
-
-                          return (
-
-                            <td
-
-                              key={`spec-${specName}-${product.id}`}
-
-                              className="p-4 text-center"
-
-                            >
-
-                              {
-                                spec?.specification_value || "-"
-                              }
-
-                            </td>
-
-                          );
-
-                        }
-                      )
-
-                    }
-
-                  </tr>
-
-                )
-              )
-
-            }
-
-          </tbody>
-
-        </table>
-
+                        <div className="market-right">
+
+                          {isLowest && (
+                            <CheckCircle
+                              size={18}
+                              className="best-price-icon"
+                            />
+                          )}
+
+                          <ShoppingCart size={18} />
+
+                        </div>
+                      </a>
+                    );
+                  }
+                )}
+
+              </div>
+            </div>
+          );
+        })}
       </div>
-
     </div>
-
   );
-
 };
 
 export default ComparePage;

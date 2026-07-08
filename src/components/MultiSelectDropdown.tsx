@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Check } from "lucide-react";
 
 type Option = {
   id: number;
@@ -21,14 +22,18 @@ const MultiSelectDropdown = ({
 }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef =
+    useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (
+      event: MouseEvent
+    ) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(
+          event.target as Node
+        )
       ) {
         setOpen(false);
       }
@@ -47,46 +52,47 @@ const MultiSelectDropdown = ({
     };
   }, []);
 
-  // Show selected names
-  const selectedNames = options
-    .filter((option) =>
-      selected.includes(option.id)
-    )
-    .map((option) => option.name)
-    .join(", ");
-
   return (
     <div
-      className="relative w-60"
+      className="relative"
       ref={dropdownRef}
     >
-      {/* Dropdown button */}
+      {/* Button */}
       <button
-        type="button"
         onClick={() => setOpen(!open)}
-        className="
-          w-full
-          bg-white
-          border
-          border-gray-300
-          rounded-md
+        className={`
+          min-w-[180px]
+          h-8
           px-4
-          py-2
-          text-sm
+          border
+          rounded
+          bg-white
           flex
-          justify-between
           items-center
-          shadow-sm
-          hover:border-blue-500
-        "
+          justify-between
+          text-sm
+          transition-all
+          ${
+            open
+              ? "border-[#10B981] ring-2 ring-[#10B981]/10"
+              : "border-gray-300 hover:border-[#10B981]"
+          }
+        `}
       >
         <span className="truncate">
-          {selectedNames || label}
+          {selected.length > 0
+            ? `${label} (${selected.length})`
+            : label}
         </span>
 
-        <span className="text-gray-400">
-          ▼
-        </span>
+        <ChevronDown
+          size={16}
+          className={`
+            text-gray-500
+            transition-transform
+            ${open ? "rotate-180" : ""}
+          `}
+        />
       </button>
 
       {/* Dropdown */}
@@ -94,46 +100,62 @@ const MultiSelectDropdown = ({
         <div
           className="
             absolute
-            mt-2
-            w-full
+            top-12
+            left-0
+            w-56
             bg-white
             border
             border-gray-200
-            rounded-md
+            rounded-2xl
             shadow-lg
             z-50
-            max-h-64
-            overflow-y-auto
+            overflow-hidden
           "
         >
-          {options.map((option) => (
-            <label
-              key={option.id}
-              className="
-                flex
-                items-center
-                gap-3
-                px-4
-                py-2
-                text-sm
-                hover:bg-gray-100
-                cursor-pointer
-              "
-            >
-              <input
-                type="checkbox"
-                className="accent-blue-600"
-                checked={selected.includes(
+          <div className="max-h-64 overflow-y-auto py-2">
+            {options.map(option => {
+              const checked =
+                selected.includes(
                   option.id
-                )}
-                onChange={() =>
-                  onChange(option.id)
-                }
-              />
+                );
 
-              {option.name}
-            </label>
-          ))}
+              return (
+                <button
+                  key={option.id}
+                  onClick={() =>
+                    onChange(option.id)
+                  }
+                  className="
+                    w-full
+                    px-4
+                    py-2
+                    flex
+                    items-center
+                    justify-between
+                    hover:bg-gray-50
+                    text-sm
+                  "
+                >
+                  <span
+                    className={
+                      checked
+                        ? "text-[#10B981] font-medium"
+                        : "text-gray-700"
+                    }
+                  >
+                    {option.name}
+                  </span>
+
+                  {checked && (
+                    <Check
+                      size={16}
+                      className="text-[#10B981]"
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

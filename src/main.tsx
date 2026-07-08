@@ -8,10 +8,9 @@ import App from "./App";
 import { store } from "./app/store";
 
 import "./index.css";
+import "./assets/css/style.css";
 
-ReactDOM.createRoot(
-  document.getElementById("root")!
-).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
 
   <React.StrictMode>
 

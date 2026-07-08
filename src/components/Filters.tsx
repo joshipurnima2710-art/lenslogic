@@ -5,7 +5,11 @@ import MultiSelectDropdown from "./MultiSelectDropdown";
 
 const Filters = () => {
   const dispatch = useDispatch();
-  const { activeMenu, selectedFilters } = useSelector(
+
+  const {
+    activeMenu,
+    selectedFilters
+  } = useSelector(
     (state: RootState) => state.filters
   );
 
@@ -14,48 +18,77 @@ const Filters = () => {
       ? [
           {
             label: "Brand",
-            options: ["Canon", "Nikon", "Sony"],
+            options: [
+              { id: 1, name: "Canon", brand_id: null },
+              { id: 2, name: "Nikon", brand_id: null },
+              { id: 3, name: "Sony", brand_id: null }
+            ]
           },
           {
             label: "Camera Type",
-            options: ["DSLR", "Mirrorless", "Compact"],
-          },
-          
+            options: [
+              { id: 1, name: "DSLR", brand_id: null },
+              { id: 2, name: "Mirrorless", brand_id: null },
+              { id: 3, name: "Compact", brand_id: null }
+            ]
+          }
         ]
       : [
           {
             label: "Lens Type",
-            options: ["Prime", "Zoom"],
+            options: [
+              { id: 1, name: "Prime", brand_id: null },
+              { id: 2, name: "Zoom", brand_id: null }
+            ]
           },
           {
             label: "Mount",
-            options: ["Canon EF", "Sony E", "Nikon F"],
-          },
+            options: [
+              { id: 1, name: "Canon RF", brand_id: null },
+              { id: 2, name: "Sony E", brand_id: null },
+              { id: 3, name: "Nikon Z", brand_id: null }
+            ]
+          }
         ];
 
   return (
-    <div>
-      <div className="mt-4 text-sm text-gray-500">
-        Showing results for <span className="font-semibold">{activeMenu}</span>
+    <div className="mb-8">
+
+      {/* Result Text */}
+      <div className="mb-5">
+        <h2 className="text-2xl font-bold text-gray-900">
+          {activeMenu}
+        </h2>
+
+        <p className="text-gray-500 mt-1">
+          Compare prices across multiple marketplaces
+        </p>
       </div>
-      <div className="flex gap-4 flex-wrap mt-4">
-        {filterData.map((filter) => (
+
+      {/* Filters Row */}
+      <div className="flex flex-wrap gap-4">
+        {filterData.map(filter => (
           <MultiSelectDropdown
             key={filter.label}
             label={filter.label}
             options={filter.options}
-            selected={selectedFilters[filter.label] || []}
+            selected={
+              selectedFilters[
+                filter.label
+              ] || []
+            }
             onChange={(value) =>
               dispatch(
                 toggleFilter({
                   category: filter.label,
-                  value,
+                  value
                 })
               )
             }
           />
         ))}
       </div>
+
     </div>
   );
 };

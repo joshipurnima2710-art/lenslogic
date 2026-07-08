@@ -1,19 +1,7 @@
-import {
-  createSlice,
-  createAsyncThunk
-} from "@reduxjs/toolkit";
-
-import type {
-  PayloadAction
-} from "@reduxjs/toolkit";
-
-import type {
-  Product
-} from "./productTypes";
-
-import {
-  getCompareProductsApi
-} from "./productAPI";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import type {PayloadAction} from "@reduxjs/toolkit";
+import type {Product} from "./productTypes";
+import {getCompareProductsApi} from "./productAPI";
 
 interface CompareState {
   selectedIds: number[];
@@ -31,17 +19,11 @@ export const fetchCompareProducts =
   createAsyncThunk(
     "products/fetchCompareProducts",
 
-    async (
-      ids: number[],
-      thunkAPI
-    ) => {
+    async (ids: number[], thunkAPI) => {
 
       try {
 
-        const response =
-          await getCompareProductsApi(
-            ids
-          );
+        const response =await getCompareProductsApi(ids);
 
         return response.data.data;
 
@@ -49,9 +31,7 @@ export const fetchCompareProducts =
 
       catch (error: any) {
 
-        return thunkAPI.rejectWithValue(
-          error.response?.data?.message
-        );
+        return thunkAPI.rejectWithValue(error.response?.data?.message);
 
       }
 
@@ -60,25 +40,14 @@ export const fetchCompareProducts =
 
 const compareSlice =
   createSlice({
-
     name: "compare",
-
     initialState,
-
     reducers: {
+      toggleCompare: (state, action: PayloadAction<number>) => {
 
-      toggleCompare: (
-        state,
-        action: PayloadAction<number>
-      ) => {
+        const id = action.payload;
 
-        const id =
-          action.payload;
-
-        const exists =
-          state.selectedIds.includes(
-            id
-          );
+        const exists = state.selectedIds.includes(id);
 
         if (exists) {
 
@@ -90,9 +59,7 @@ const compareSlice =
           return;
         }
 
-        if (
-          state.selectedIds.length >= 4
-        ) {
+        if (state.selectedIds.length >= 3) {
 
           return;
         }
@@ -101,9 +68,7 @@ const compareSlice =
 
       },
 
-      clearCompare: (
-        state
-      ) => {
+      clearCompare: (state) => {
 
         state.selectedIds = [];
 

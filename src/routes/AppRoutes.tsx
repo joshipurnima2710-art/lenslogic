@@ -3,14 +3,14 @@ import {
   Route
 } from "react-router-dom";
 
-import PrivateRoute from "./PrivateRoute";
-
 import MainLayout from "../layouts/MainLayout";
-
-import Dashboard from "../pages/Dashboard";
+import HomePage from "../pages/Home";
+import Products from "../pages/Products";
 import ProductDetail from "../pages/ProductDetail";
 import Login from "../pages/Login";
 import ComparePage from "../pages/ComparePage";
+import About from "../pages/About";
+import Feedback from "../pages/Feedback";
 
 const AppRoutes = () => {
 
@@ -20,39 +20,17 @@ const AppRoutes = () => {
 
       {/* Public */}
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+      <Route path="/login" element={<Login />} />
 
       {/* Protected */}
 
-      <Route
-        element={
-          <PrivateRoute>
-
-            <MainLayout />
-
-          </PrivateRoute>
-        }
-      >
-
-        <Route
-          path="/"
-          element={<Dashboard />}
-        />
-
-        <Route
-          path="/products/:id"
-          element={<ProductDetail />}
-        />
-
-        <Route
-          path="/compare"
-          element={<ComparePage />}
-        />
-
-
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/compare" element={<ComparePage />}/>
       </Route>
 
     </Routes>

@@ -4,25 +4,18 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const MainLayout = () => {
-
   return (
-
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen  flex flex-col">
 
       <Navbar />
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
-
+      <main className="flex-1 w-full">
         <Outlet />
-
       </main>
 
       <Footer />
-
     </div>
-
   );
-
 };
 
 export default MainLayout;

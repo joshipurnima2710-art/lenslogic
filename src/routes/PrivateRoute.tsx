@@ -4,18 +4,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-const PrivateRoute = ({
-  children
-}: Props) => {
+const PrivateRoute = ({ children}: Props) => {
 
   const token =
-    localStorage.getItem(
-      "accessToken"
-    );
+    localStorage.getItem("accessToken");
 
-  return token
-    ? children
-    : <Navigate to="/login" replace />;
+  return token ? children : <Navigate to="/login" replace />;
 
 };
 

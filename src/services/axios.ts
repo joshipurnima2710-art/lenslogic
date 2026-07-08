@@ -18,30 +18,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.response.use(
+api.interceptors.response.use((response) => response, (error) => {
 
-  (response) => response,
+    if (error.response?.status === 401) {
 
-  (error) => {
+      localStorage.removeItem("accessToken");
 
-    if (
-      error.response?.status === 401
-    ) {
+      localStorage.removeItem("refreshToken");
 
-      localStorage.removeItem(
-        "accessToken"
-      );
+      localStorage.removeItem("user");
 
-      localStorage.removeItem(
-        "refreshToken"
-      );
-
-      localStorage.removeItem(
-        "user"
-      );
-
-      window.location.href =
-        "/login";
+      window.location.href ="/login";
     }
 
     return Promise.reject(error);

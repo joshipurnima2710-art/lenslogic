@@ -1,0 +1,280 @@
+/* ===========================
+   Common
+=========================== */
+body {
+    background: #EEF2F7;
+}
+.home-section {
+    padding-top: 18px;
+    padding-left:  15px;
+    padding-right: 15px;
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827; 
+    margin-bottom: 15px;
+}
+
+.section-subtitle {
+    color: #6B7280;
+    font-size: 16px;
+}
+
+/* ===========================
+   Search Section
+=========================== */
+
+.search-section {
+    margin-top: -50px;
+    position: relative;
+    z-index: 10;
+}
+
+.search-card {
+    background: #ffffff;
+    padding: 40px;
+    
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.search-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.search-box {
+    display: flex;
+    overflow: hidden;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 18px 20px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-btn {
+    width: 70px;
+    border: none;
+    background: #10B981;
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+    padding: 0 20px;
+}
+
+.search-btn:hover {
+    background: #059669;
+}
+
+.popular-searches {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.popular-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    background: #F3F4F6;
+    font-size: 14px;
+}
+
+/* ===========================
+   Product Cards
+=========================== */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 25px;
+}
+
+.product-card {
+    background: white;
+    padding: 25px;
+    border: 1px solid #F3F4F6;
+    transition: .3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: 600;
+    min-height: 50px;
+}
+
+.product-price {
+    color: #10B981;
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.product-store {
+    color: #6B7280;
+    margin-top: 5px;
+}
+
+.compare-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: #10B981;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.compare-btn:hover {
+    background: #059669;
+}
+
+/* ===========================
+   Price Drop Cards
+=========================== */
+
+.price-drop {
+    color: #EF4444;
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+/* ===========================
+   How It Works
+=========================== */
+
+.how-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+}
+
+.step-card {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    border-radius: 50%;
+    background: #ECFDF5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #10B981;
+    margin-bottom: 20px;
+}
+
+.step-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.step-desc {
+    color: #6B7280;
+    margin-top: 10px;
+}
+
+/* ===========================
+   Newsletter
+=========================== */
+
+.newsletter {
+    background: linear-gradient(
+        135deg,
+        #F0FDF4,
+        #ECFDF5
+    );
+
+    padding: 70px 0;
+   
+}
+
+.newsletter-box {
+    max-width: 700px;
+    margin: auto;
+    display: flex;
+    overflow: hidden;
+    background: white;
+    border-radius: 18px;
+}
+
+.newsletter-input {
+    flex: 1;
+    border: none;
+    padding: 18px;
+    outline: none;
+}
+
+.newsletter-btn {
+    width: 180px;
+    border: none;
+    background: #10B981;
+    color: white;
+    font-weight: 600;
+}
+
+.newsletter-btn:hover {
+    background: #059669;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+    .how-grid{
+        grid-template-columns:1fr;
+    }
+
+    .section-title{
+        font-size:28px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .search-card{
+        padding:25px;
+    }
+
+    .search-title{
+        font-size:22px;
+    }
+
+    .newsletter-box{
+        flex-direction:column;
+    }
+
+    .newsletter-btn{
+        width:100%;
+        height:55px;
+    }
+
+}
