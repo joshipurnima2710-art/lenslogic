@@ -1,0 +1,285 @@
+/* =========================
+   LensMarket Global Styles
+========================= */
+
+
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+
+body{
+
+
+    margin:0;
+
+    background:#f3f4f6;
+
+    color:#1f2937;
+
+    font-family:
+
+    Inter,
+    system-ui,
+    sans-serif;
+
+
+}
+
+
+
+
+
+/* Container */
+
+.lm-container{
+
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding-left:24px;
+
+    padding-right:24px;
+
+
+}
+
+
+
+
+
+/* Cards */
+
+.lm-card{
+
+
+    background:white;
+
+    border-radius:12px;
+
+    box-shadow:
+    0 1px 3px rgba(0,0,0,.08);
+
+
+}
+
+
+
+
+
+/* Buttons */
+
+.lm-btn-primary{
+
+
+    background:#10B981;
+
+    color:white;
+
+    padding:10px 20px;
+
+    border-radius:8px;
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+
+}
+
+
+
+.lm-btn-primary:hover{
+
+
+    opacity:.9;
+
+
+}
+
+
+
+
+
+
+
+/* Inputs */
+
+.lm-input{
+
+
+    width:100%;
+
+    height:42px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    padding:0 12px;
+
+    outline:none;
+
+
+}
+
+
+
+.lm-input:focus{
+
+
+    border-color:#10B981;
+
+
+}
+
+
+
+
+
+
+/* Product Grid */
+
+.lm-product-grid{
+
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(
+        auto-fill,
+        minmax(250px,1fr)
+    );
+
+
+    gap:24px;
+
+
+}
+
+
+
+
+
+
+
+/* Toolbar */
+
+.lm-toolbar{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+
+}
+
+
+
+
+
+
+
+/* Empty State */
+
+.lm-empty{
+
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:40px;
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+
+/* Loading */
+
+.lm-loading{
+
+
+    text-align:center;
+
+    padding:40px;
+
+    color:#6b7280;
+
+
+}
+
+
+
+
+
+
+/* Footer */
+
+.lm-footer{
+
+
+    border-top:1px solid #e5e7eb;
+
+    background:white;
+
+
+}
+
+
+
+
+
+
+
+/* Responsive */
+
+@media(max-width:768px){
+
+
+    .lm-container{
+
+
+        padding-left:16px;
+
+        padding-right:16px;
+
+
+    }
+
+
+
+    .lm-toolbar{
+
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+
+    }
+
+
+}

@@ -22,7 +22,9 @@ const initialState: ProductState = {
 
   pageSize: 10,
 
-  hasMore: true
+  hasMore: true,
+
+  sortBy: "newest"
 
 };
 
@@ -69,7 +71,19 @@ const productSlice = createSlice({
 
   initialState,
 
-  reducers: {},
+  reducers: {
+
+        setSortBy:(state,action)=>{
+
+        state.sortBy = action.payload;
+
+        state.currentPage = 1;
+
+        state.products = [];
+
+    }
+
+  },
 
   extraReducers(builder) {
 
@@ -148,5 +162,5 @@ const productSlice = createSlice({
   }
 
 });
-
+export const { setSortBy} = productSlice.actions;
 export default productSlice.reducer;

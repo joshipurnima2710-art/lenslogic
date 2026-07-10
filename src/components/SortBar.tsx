@@ -31,21 +31,20 @@ const SortDropdown = ({
           hover:border-[#10B981]
         "
       >
-        <option value="popularity">
-          Popularity
-        </option>
-
-        <option value="price_low">
-          Price: Low to High
-        </option>
-
-        <option value="price_high">
-          Price: High to Low
-        </option>
 
         <option value="newest">
           Newest
         </option>
+
+        <option value="lowtohigh">
+          Price: Low to High
+        </option>
+
+        <option value="hightolow">
+          Price: High to Low
+        </option>
+
+        
       </select>
 
       <ChevronDown

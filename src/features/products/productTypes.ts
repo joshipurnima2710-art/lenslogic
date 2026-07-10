@@ -77,4 +77,6 @@ export interface ProductState {
 
   hasMore: boolean;
 
+  sortBy: string;
+
 }
